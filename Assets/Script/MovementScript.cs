@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class MovementScript : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float rotationSpeed;
 
     private ActionsGameplay actions;
 
@@ -20,6 +21,7 @@ public class MovementScript : MonoBehaviour
     void Update()
     {
         transform.Translate(actions.gameplay.move.ReadValue<Vector2>().x * Time.deltaTime * speed, 0, actions.gameplay.move.ReadValue<Vector2>().y * Time.deltaTime * speed);
+        transform.Rotate(0, actions.gameplay.rotate.ReadValue<Vector2>().x * Time.deltaTime * rotationSpeed, 0);
     }
 
     private void Drag(InputAction.CallbackContext context)

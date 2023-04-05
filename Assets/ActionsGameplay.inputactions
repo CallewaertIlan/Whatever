@@ -22,13 +22,22 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "rotate",
+                    "type": "Value",
+                    "id": "66dc0d8a-19a2-4952-8b82-de1461e75280",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "b6f64b11-69cc-44aa-bf7a-4e619469144b",
-                    "path": "<XRController>{RightHand}/joystick",
+                    "path": "<XRController>{LeftHand}/joystick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Control",
@@ -99,6 +108,17 @@
                     "processors": "",
                     "groups": "Control",
                     "action": "drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc26539a-777a-4bf2-a16b-b8958f6824ab",
+                    "path": "<XRController>{RightHand}/joystick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Control",
+                    "action": "rotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

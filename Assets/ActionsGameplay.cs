@@ -44,13 +44,22 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""66dc0d8a-19a2-4952-8b82-de1461e75280"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""b6f64b11-69cc-44aa-bf7a-4e619469144b"",
-                    ""path"": ""<XRController>{RightHand}/joystick"",
+                    ""path"": ""<XRController>{LeftHand}/joystick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Control"",
@@ -123,6 +132,17 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""action"": ""drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc26539a-777a-4bf2-a16b-b8958f6824ab"",
+                    ""path"": ""<XRController>{RightHand}/joystick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Control"",
+                    ""action"": ""rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -150,6 +170,7 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         m_gameplay = asset.FindActionMap("gameplay", throwIfNotFound: true);
         m_gameplay_move = m_gameplay.FindAction("move", throwIfNotFound: true);
         m_gameplay_drag = m_gameplay.FindAction("drag", throwIfNotFound: true);
+        m_gameplay_rotate = m_gameplay.FindAction("rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -213,12 +234,14 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_gameplay_move;
     private readonly InputAction m_gameplay_drag;
+    private readonly InputAction m_gameplay_rotate;
     public struct GameplayActions
     {
         private @ActionsGameplay m_Wrapper;
         public GameplayActions(@ActionsGameplay wrapper) { m_Wrapper = wrapper; }
         public InputAction @move => m_Wrapper.m_gameplay_move;
         public InputAction @drag => m_Wrapper.m_gameplay_drag;
+        public InputAction @rotate => m_Wrapper.m_gameplay_rotate;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -234,6 +257,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @drag.started += instance.OnDrag;
             @drag.performed += instance.OnDrag;
             @drag.canceled += instance.OnDrag;
+            @rotate.started += instance.OnRotate;
+            @rotate.performed += instance.OnRotate;
+            @rotate.canceled += instance.OnRotate;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -244,6 +270,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @drag.started -= instance.OnDrag;
             @drag.performed -= instance.OnDrag;
             @drag.canceled -= instance.OnDrag;
+            @rotate.started -= instance.OnRotate;
+            @rotate.performed -= instance.OnRotate;
+            @rotate.canceled -= instance.OnRotate;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -274,5 +303,6 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
 }
