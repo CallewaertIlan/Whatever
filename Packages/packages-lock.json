@@ -1,5 +1,79 @@
 {
   "dependencies": {
+    "com.oculus.unity.integration": {
+      "version": "33.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2",
+        "com.oculus.unity.integration.audio-manager": "32.0.0",
+        "com.oculus.unity.integration.avatar": "20.0.2",
+        "com.oculus.unity.integration.lip-sync": "29.0.0",
+        "com.oculus.unity.integration.platform": "33.0.0",
+        "com.oculus.unity.integration.spatializer": "32.0.0",
+        "com.oculus.unity.integration.vr": "33.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.audio-manager": {
+      "version": "32.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2",
+        "com.oculus.unity.integration.spatializer": "32.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.avatar": {
+      "version": "20.0.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2",
+        "com.oculus.unity.integration.spatializer": "32.0.0",
+        "com.oculus.unity.integration.platform": "33.0.0",
+        "com.oculus.unity.integration.vr": "33.0.0",
+        "com.oculus.unity.integration.lip-sync": "29.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.lip-sync": {
+      "version": "29.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.platform": {
+      "version": "33.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.spatializer": {
+      "version": "32.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.oculus.unity.integration.vr": {
+      "version": "33.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.oculus": "1.11.2"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.burst": {
       "version": "1.8.2",
       "depth": 1,
