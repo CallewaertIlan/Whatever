@@ -37,6 +37,15 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""66dc0d8a-19a2-4952-8b82-de1461e75280"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""drag"",
                     ""type"": ""Button"",
                     ""id"": ""e3bba1ba-c16a-4504-bcc3-22272a95f01a"",
@@ -46,10 +55,19 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""rotate"",
+                    ""name"": ""left_hand"",
                     ""type"": ""Value"",
-                    ""id"": ""66dc0d8a-19a2-4952-8b82-de1461e75280"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""c0c492ea-fa04-4fbc-be6b-0c93f62fbba1"",
+                    ""expectedControlType"": ""Vector3"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""right_hand"",
+                    ""type"": ""Value"",
+                    ""id"": ""3e5cbef8-1ffe-4e2f-a2b9-265c4823eea0"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -126,10 +144,32 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""564f0799-98bb-4125-8eec-5b7285c20f1f"",
                     ""path"": ""<XRController>{RightHand}/triggerPressed"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": ""Control"",
                     ""action"": ""drag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00930cf4-a492-4db8-8e3c-7cba8e8f0bb4"",
+                    ""path"": ""<XRController>{LeftHand}/devicePosition"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Control"",
+                    ""action"": ""left_hand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcc4c857-2e55-47f1-8851-681bf021da9d"",
+                    ""path"": ""<XRController>{RightHand}/devicePosition"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Control"",
+                    ""action"": ""right_hand"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -169,8 +209,10 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         // gameplay
         m_gameplay = asset.FindActionMap("gameplay", throwIfNotFound: true);
         m_gameplay_move = m_gameplay.FindAction("move", throwIfNotFound: true);
-        m_gameplay_drag = m_gameplay.FindAction("drag", throwIfNotFound: true);
         m_gameplay_rotate = m_gameplay.FindAction("rotate", throwIfNotFound: true);
+        m_gameplay_drag = m_gameplay.FindAction("drag", throwIfNotFound: true);
+        m_gameplay_left_hand = m_gameplay.FindAction("left_hand", throwIfNotFound: true);
+        m_gameplay_right_hand = m_gameplay.FindAction("right_hand", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -233,15 +275,19 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_gameplay_move;
-    private readonly InputAction m_gameplay_drag;
     private readonly InputAction m_gameplay_rotate;
+    private readonly InputAction m_gameplay_drag;
+    private readonly InputAction m_gameplay_left_hand;
+    private readonly InputAction m_gameplay_right_hand;
     public struct GameplayActions
     {
         private @ActionsGameplay m_Wrapper;
         public GameplayActions(@ActionsGameplay wrapper) { m_Wrapper = wrapper; }
         public InputAction @move => m_Wrapper.m_gameplay_move;
-        public InputAction @drag => m_Wrapper.m_gameplay_drag;
         public InputAction @rotate => m_Wrapper.m_gameplay_rotate;
+        public InputAction @drag => m_Wrapper.m_gameplay_drag;
+        public InputAction @left_hand => m_Wrapper.m_gameplay_left_hand;
+        public InputAction @right_hand => m_Wrapper.m_gameplay_right_hand;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -254,12 +300,18 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @move.started += instance.OnMove;
             @move.performed += instance.OnMove;
             @move.canceled += instance.OnMove;
-            @drag.started += instance.OnDrag;
-            @drag.performed += instance.OnDrag;
-            @drag.canceled += instance.OnDrag;
             @rotate.started += instance.OnRotate;
             @rotate.performed += instance.OnRotate;
             @rotate.canceled += instance.OnRotate;
+            @drag.started += instance.OnDrag;
+            @drag.performed += instance.OnDrag;
+            @drag.canceled += instance.OnDrag;
+            @left_hand.started += instance.OnLeft_hand;
+            @left_hand.performed += instance.OnLeft_hand;
+            @left_hand.canceled += instance.OnLeft_hand;
+            @right_hand.started += instance.OnRight_hand;
+            @right_hand.performed += instance.OnRight_hand;
+            @right_hand.canceled += instance.OnRight_hand;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -267,12 +319,18 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @move.started -= instance.OnMove;
             @move.performed -= instance.OnMove;
             @move.canceled -= instance.OnMove;
-            @drag.started -= instance.OnDrag;
-            @drag.performed -= instance.OnDrag;
-            @drag.canceled -= instance.OnDrag;
             @rotate.started -= instance.OnRotate;
             @rotate.performed -= instance.OnRotate;
             @rotate.canceled -= instance.OnRotate;
+            @drag.started -= instance.OnDrag;
+            @drag.performed -= instance.OnDrag;
+            @drag.canceled -= instance.OnDrag;
+            @left_hand.started -= instance.OnLeft_hand;
+            @left_hand.performed -= instance.OnLeft_hand;
+            @left_hand.canceled -= instance.OnLeft_hand;
+            @right_hand.started -= instance.OnRight_hand;
+            @right_hand.performed -= instance.OnRight_hand;
+            @right_hand.canceled -= instance.OnRight_hand;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -302,7 +360,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnDrag(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnDrag(InputAction.CallbackContext context);
+        void OnLeft_hand(InputAction.CallbackContext context);
+        void OnRight_hand(InputAction.CallbackContext context);
     }
 }

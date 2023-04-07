@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "rotate",
+                    "type": "Value",
+                    "id": "66dc0d8a-19a2-4952-8b82-de1461e75280",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "drag",
                     "type": "Button",
                     "id": "e3bba1ba-c16a-4504-bcc3-22272a95f01a",
@@ -24,10 +33,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "rotate",
+                    "name": "left_hand",
                     "type": "Value",
-                    "id": "66dc0d8a-19a2-4952-8b82-de1461e75280",
-                    "expectedControlType": "Vector2",
+                    "id": "c0c492ea-fa04-4fbc-be6b-0c93f62fbba1",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "right_hand",
+                    "type": "Value",
+                    "id": "3e5cbef8-1ffe-4e2f-a2b9-265c4823eea0",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -104,10 +122,32 @@
                     "name": "",
                     "id": "564f0799-98bb-4125-8eec-5b7285c20f1f",
                     "path": "<XRController>{RightHand}/triggerPressed",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "Control",
                     "action": "drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00930cf4-a492-4db8-8e3c-7cba8e8f0bb4",
+                    "path": "<XRController>{LeftHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Control",
+                    "action": "left_hand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcc4c857-2e55-47f1-8851-681bf021da9d",
+                    "path": "<XRController>{RightHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Control",
+                    "action": "right_hand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
