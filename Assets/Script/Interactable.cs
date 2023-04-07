@@ -30,6 +30,12 @@ public class Interactable : MonoBehaviour
 
     }
 
+    public void Throw(Vector3 speed)
+    {
+        Debug.Log(speed);
+        rb.AddForce(speed);
+    }
+
     public void MoveTo(Vector3 position)
     {
         transform.position = position;

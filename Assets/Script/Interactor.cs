@@ -1,12 +1,15 @@
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-    public float grabDistance = 0.1f;
-    public LayerMask interactableLayer;
+    [SerializeField] private float grabDistance = 1f;
+    [SerializeField] private LayerMask interactableLayer;
     private Interactable currentInteractable = null;
     private Vector3 grabOffset = Vector3.zero; // l'offset de position entre la position de l'objet et la position du contrôleur VR lors de la saisie
+    private float distance;
 
     private ActionsGameplay actions;
     private bool grip = false;
@@ -19,30 +22,30 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-
+        Debug.Log(actions.gameplay.left_hand_speed.ReadValue<Vector3>());
         if (grip)
         {
             RaycastHit hit;
-            Debug.Log("test");
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, grabDistance, interactableLayer))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, grabDistance, interactableLayer))
             {
-
                 Interactable interactable = hit.collider.GetComponent<Interactable>();
+                //grabDistance = interactable.transform.lossyScale.x;
 
                 if (interactable != null && !interactable.isGrabbed)
                 {
                     currentInteractable = interactable;
+                    distance = hit.distance;
                     grabOffset = currentInteractable.transform.position - transform.position;
                     currentInteractable.Grab();
                 }
             }
         }
-        
         else
         {
             if (currentInteractable != null)
             {
                 currentInteractable.Release();
+                currentInteractable.Throw(actions.gameplay.left_hand_speed.ReadValue<Vector3>());
                 currentInteractable = null;
             }
         }
@@ -50,13 +53,13 @@ public class Interactor : MonoBehaviour
         if (currentInteractable != null)
         {
             currentInteractable.MoveTo(transform.position + grabOffset);
+            //currentInteractable.transform.position += transform.forward * dist;
         }
     }
 
     void Drag(InputAction.CallbackContext context)
     {
         grip = !grip;
-        Debug.Log("Drag");
     }
 
     void OnEnable()

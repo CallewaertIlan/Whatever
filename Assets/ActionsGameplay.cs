@@ -89,6 +89,15 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""left_hand_speed"",
+                    ""type"": ""Value"",
+                    ""id"": ""ebb774d9-a5f8-4763-9988-12d0c1929511"",
+                    ""expectedControlType"": ""Vector3"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -223,6 +232,17 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""action"": ""right_hand_rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf79c88a-f706-4e92-804f-bbed93bb2fe3"",
+                    ""path"": ""<XRController>{RightHand}/deviceAcceleration"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Control"",
+                    ""action"": ""left_hand_speed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -255,6 +275,7 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         m_gameplay_left_hand_rotation = m_gameplay.FindAction("left_hand_rotation", throwIfNotFound: true);
         m_gameplay_right_hand = m_gameplay.FindAction("right_hand", throwIfNotFound: true);
         m_gameplay_right_hand_rotation = m_gameplay.FindAction("right_hand_rotation", throwIfNotFound: true);
+        m_gameplay_left_hand_speed = m_gameplay.FindAction("left_hand_speed", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,6 +344,7 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_left_hand_rotation;
     private readonly InputAction m_gameplay_right_hand;
     private readonly InputAction m_gameplay_right_hand_rotation;
+    private readonly InputAction m_gameplay_left_hand_speed;
     public struct GameplayActions
     {
         private @ActionsGameplay m_Wrapper;
@@ -334,6 +356,7 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         public InputAction @left_hand_rotation => m_Wrapper.m_gameplay_left_hand_rotation;
         public InputAction @right_hand => m_Wrapper.m_gameplay_right_hand;
         public InputAction @right_hand_rotation => m_Wrapper.m_gameplay_right_hand_rotation;
+        public InputAction @left_hand_speed => m_Wrapper.m_gameplay_left_hand_speed;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -364,6 +387,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @right_hand_rotation.started += instance.OnRight_hand_rotation;
             @right_hand_rotation.performed += instance.OnRight_hand_rotation;
             @right_hand_rotation.canceled += instance.OnRight_hand_rotation;
+            @left_hand_speed.started += instance.OnLeft_hand_speed;
+            @left_hand_speed.performed += instance.OnLeft_hand_speed;
+            @left_hand_speed.canceled += instance.OnLeft_hand_speed;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -389,6 +415,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @right_hand_rotation.started -= instance.OnRight_hand_rotation;
             @right_hand_rotation.performed -= instance.OnRight_hand_rotation;
             @right_hand_rotation.canceled -= instance.OnRight_hand_rotation;
+            @left_hand_speed.started -= instance.OnLeft_hand_speed;
+            @left_hand_speed.performed -= instance.OnLeft_hand_speed;
+            @left_hand_speed.canceled -= instance.OnLeft_hand_speed;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -424,5 +453,6 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         void OnLeft_hand_rotation(InputAction.CallbackContext context);
         void OnRight_hand(InputAction.CallbackContext context);
         void OnRight_hand_rotation(InputAction.CallbackContext context);
+        void OnLeft_hand_speed(InputAction.CallbackContext context);
     }
 }

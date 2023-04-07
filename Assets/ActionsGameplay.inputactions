@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "left_hand_speed",
+                    "type": "Value",
+                    "id": "ebb774d9-a5f8-4763-9988-12d0c1929511",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -199,6 +208,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "right_hand_rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf79c88a-f706-4e92-804f-bbed93bb2fe3",
+                    "path": "<XRController>{RightHand}/deviceAcceleration",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Control",
+                    "action": "left_hand_speed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5,7 +5,7 @@ public class MovementScript : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private Transform camera;
+    [SerializeField] private Transform cam;
 
     private ActionsGameplay actions;
     [SerializeField] private Vector3 initialPos;
@@ -21,9 +21,9 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 dirForward = camera.forward;
+        Vector3 dirForward = cam.forward;
         dirForward.y = 0;
-        Vector3 dirRight = camera.right;
+        Vector3 dirRight = cam.right;
         dirRight.y = 0;
         transform.position += dirForward * actions.gameplay.move.ReadValue<Vector2>().y * speed;
         transform.position += dirRight * actions.gameplay.move.ReadValue<Vector2>().x * speed;
