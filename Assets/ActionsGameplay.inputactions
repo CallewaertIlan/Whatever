@@ -42,10 +42,28 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "left_hand_rotation",
+                    "type": "Value",
+                    "id": "4d0c4fd1-a1ff-437f-bed1-1d47d629a501",
+                    "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "right_hand",
                     "type": "Value",
                     "id": "3e5cbef8-1ffe-4e2f-a2b9-265c4823eea0",
                     "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "right_hand_rotation",
+                    "type": "Value",
+                    "id": "3d4b901f-d7c3-4f0d-8675-2612a9dea8f5",
+                    "expectedControlType": "Quaternion",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -159,6 +177,28 @@
                     "processors": "",
                     "groups": "Control",
                     "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0384e52-4dd2-4536-97e0-2bfcd9953034",
+                    "path": "<XRController>{LeftHand}/pointerRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left_hand_rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2cc5470-d106-4634-b071-075e0c82a11d",
+                    "path": "<XRController>{RightHand}/pointerRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right_hand_rotation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

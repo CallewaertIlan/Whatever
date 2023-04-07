@@ -9,7 +9,7 @@ public class HandSetPosition : MonoBehaviour
     private ActionsGameplay actions;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         actions = new ActionsGameplay();
     }
@@ -19,13 +19,22 @@ public class HandSetPosition : MonoBehaviour
     {
         if (rightSide)
         {
-            //transform.position = actions.gameplay.right_hands.ReadValue<Vector3>();
-            Debug.Log("Right Hand " + actions.gameplay.right_hand.ReadValue<Vector3>());
+            transform.localPosition = actions.gameplay.right_hand.ReadValue<Vector3>();
+            transform.rotation = actions.gameplay.right_hand_rotation.ReadValue<Quaternion>();
         }
         else
         {
-            //transform.position = actions.gameplay.left_hands.ReadValue<Vector3>();
-            Debug.Log("Left Hand " + actions.gameplay.left_hand.ReadValue<Vector3>());
+            transform.localPosition = actions.gameplay.left_hand.ReadValue<Vector3>();
+            transform.rotation = actions.gameplay.left_hand_rotation.ReadValue<Quaternion>();
         }
+    }
+
+    void OnEnable()
+    {
+        actions.gameplay.Enable();
+    }
+    void OnDisable()
+    {
+        actions.gameplay.Disable();
     }
 }

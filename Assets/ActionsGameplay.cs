@@ -64,10 +64,28 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""left_hand_rotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""4d0c4fd1-a1ff-437f-bed1-1d47d629a501"",
+                    ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""right_hand"",
                     ""type"": ""Value"",
                     ""id"": ""3e5cbef8-1ffe-4e2f-a2b9-265c4823eea0"",
                     ""expectedControlType"": ""Vector3"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""right_hand_rotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""3d4b901f-d7c3-4f0d-8675-2612a9dea8f5"",
+                    ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -183,6 +201,28 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
                     ""action"": ""rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0384e52-4dd2-4536-97e0-2bfcd9953034"",
+                    ""path"": ""<XRController>{LeftHand}/pointerRotation"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""left_hand_rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2cc5470-d106-4634-b071-075e0c82a11d"",
+                    ""path"": ""<XRController>{RightHand}/pointerRotation"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""right_hand_rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -212,7 +252,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         m_gameplay_rotate = m_gameplay.FindAction("rotate", throwIfNotFound: true);
         m_gameplay_drag = m_gameplay.FindAction("drag", throwIfNotFound: true);
         m_gameplay_left_hand = m_gameplay.FindAction("left_hand", throwIfNotFound: true);
+        m_gameplay_left_hand_rotation = m_gameplay.FindAction("left_hand_rotation", throwIfNotFound: true);
         m_gameplay_right_hand = m_gameplay.FindAction("right_hand", throwIfNotFound: true);
+        m_gameplay_right_hand_rotation = m_gameplay.FindAction("right_hand_rotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -278,7 +320,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_rotate;
     private readonly InputAction m_gameplay_drag;
     private readonly InputAction m_gameplay_left_hand;
+    private readonly InputAction m_gameplay_left_hand_rotation;
     private readonly InputAction m_gameplay_right_hand;
+    private readonly InputAction m_gameplay_right_hand_rotation;
     public struct GameplayActions
     {
         private @ActionsGameplay m_Wrapper;
@@ -287,7 +331,9 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         public InputAction @rotate => m_Wrapper.m_gameplay_rotate;
         public InputAction @drag => m_Wrapper.m_gameplay_drag;
         public InputAction @left_hand => m_Wrapper.m_gameplay_left_hand;
+        public InputAction @left_hand_rotation => m_Wrapper.m_gameplay_left_hand_rotation;
         public InputAction @right_hand => m_Wrapper.m_gameplay_right_hand;
+        public InputAction @right_hand_rotation => m_Wrapper.m_gameplay_right_hand_rotation;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,9 +355,15 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @left_hand.started += instance.OnLeft_hand;
             @left_hand.performed += instance.OnLeft_hand;
             @left_hand.canceled += instance.OnLeft_hand;
+            @left_hand_rotation.started += instance.OnLeft_hand_rotation;
+            @left_hand_rotation.performed += instance.OnLeft_hand_rotation;
+            @left_hand_rotation.canceled += instance.OnLeft_hand_rotation;
             @right_hand.started += instance.OnRight_hand;
             @right_hand.performed += instance.OnRight_hand;
             @right_hand.canceled += instance.OnRight_hand;
+            @right_hand_rotation.started += instance.OnRight_hand_rotation;
+            @right_hand_rotation.performed += instance.OnRight_hand_rotation;
+            @right_hand_rotation.canceled += instance.OnRight_hand_rotation;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -328,9 +380,15 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
             @left_hand.started -= instance.OnLeft_hand;
             @left_hand.performed -= instance.OnLeft_hand;
             @left_hand.canceled -= instance.OnLeft_hand;
+            @left_hand_rotation.started -= instance.OnLeft_hand_rotation;
+            @left_hand_rotation.performed -= instance.OnLeft_hand_rotation;
+            @left_hand_rotation.canceled -= instance.OnLeft_hand_rotation;
             @right_hand.started -= instance.OnRight_hand;
             @right_hand.performed -= instance.OnRight_hand;
             @right_hand.canceled -= instance.OnRight_hand;
+            @right_hand_rotation.started -= instance.OnRight_hand_rotation;
+            @right_hand_rotation.performed -= instance.OnRight_hand_rotation;
+            @right_hand_rotation.canceled -= instance.OnRight_hand_rotation;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -363,6 +421,8 @@ public partial class @ActionsGameplay: IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
         void OnLeft_hand(InputAction.CallbackContext context);
+        void OnLeft_hand_rotation(InputAction.CallbackContext context);
         void OnRight_hand(InputAction.CallbackContext context);
+        void OnRight_hand_rotation(InputAction.CallbackContext context);
     }
 }

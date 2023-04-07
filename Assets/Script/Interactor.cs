@@ -56,5 +56,15 @@ public class Interactor : MonoBehaviour
     void Drag(InputAction.CallbackContext context)
     {
         grip = !grip;
+        Debug.Log("Drag");
+    }
+
+    void OnEnable()
+    {
+        actions.gameplay.Enable();
+    }
+    void OnDisable()
+    {
+        actions.gameplay.Disable();
     }
 }

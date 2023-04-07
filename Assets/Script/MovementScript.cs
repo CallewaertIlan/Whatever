@@ -27,14 +27,12 @@ public class MovementScript : MonoBehaviour
         dirRight.y = 0;
         transform.position += dirForward * actions.gameplay.move.ReadValue<Vector2>().y * speed;
         transform.position += dirRight * actions.gameplay.move.ReadValue<Vector2>().x * speed;
+
         transform.Rotate(0, actions.gameplay.rotate.ReadValue<Vector2>().x * Time.deltaTime * rotationSpeed, 0);
-
-
     }
 
     private void Drag(InputAction.CallbackContext context)
     {
-        Debug.Log("Drag");
     }
        
     void OnEnable()
