@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,12 +17,16 @@ public class Interactable : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Grab()
+    public void Grab(Vector3 dist, Transform tr)
     {
+
         isGrabbed = true;
 
         rb.isKinematic = true;
 
+        MoveTo(dist);
+
+        transform.SetParent(tr, true);
     }
 
     public void Release()
@@ -28,16 +35,22 @@ public class Interactable : MonoBehaviour
 
         rb.isKinematic = false;
 
+        transform.SetParent(null, true);
+
     }
 
     public void Throw(Vector3 speed)
     {
-        Debug.Log(speed);
-        rb.AddForce(speed);
+        rb.AddForce(speed * 3, ForceMode.VelocityChange);
     }
 
     public void MoveTo(Vector3 position)
     {
         transform.position = position;
+    }
+
+    public void MoveBy(Vector3 position)
+    {
+        transform.position += position;
     }
 }

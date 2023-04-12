@@ -69,7 +69,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "left_hand_speed",
+                    "name": "right_hand_speed",
                     "type": "Value",
                     "id": "ebb774d9-a5f8-4763-9988-12d0c1929511",
                     "expectedControlType": "Vector3",
@@ -214,11 +214,11 @@
                 {
                     "name": "",
                     "id": "cf79c88a-f706-4e92-804f-bbed93bb2fe3",
-                    "path": "<XRController>{RightHand}/deviceAcceleration",
+                    "path": "<XRController>{RightHand}/deviceAngularAcceleration",
                     "interactions": "",
                     "processors": "",
                     "groups": "Control",
-                    "action": "left_hand_speed",
+                    "action": "right_hand_speed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

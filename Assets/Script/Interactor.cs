@@ -1,15 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private float grabDistance = 1f;
+    [SerializeField] private float grabDistance;
     [SerializeField] private LayerMask interactableLayer;
     private Interactable currentInteractable = null;
-    private Vector3 grabOffset = Vector3.zero; // l'offset de position entre la position de l'objet et la position du contrôleur VR lors de la saisie
-    private float distance;
+    [SerializeField] private Queue<Vector3> positionLastFrames = new Queue<Vector3>(10);
+
 
     private ActionsGameplay actions;
     private bool grip = false;
@@ -22,21 +25,22 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(actions.gameplay.left_hand_speed.ReadValue<Vector3>());
+
         if (grip)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, grabDistance, interactableLayer))
+            Debug.Log(grabDistance);
+            if (Physics.Raycast(transform.position, -transform.up, out hit, grabDistance, interactableLayer))
             {
                 Interactable interactable = hit.collider.GetComponent<Interactable>();
-                //grabDistance = interactable.transform.lossyScale.x;
 
                 if (interactable != null && !interactable.isGrabbed)
                 {
                     currentInteractable = interactable;
-                    distance = hit.distance;
-                    grabOffset = currentInteractable.transform.position - transform.position;
-                    currentInteractable.Grab();
+                    Quaternion rotation = currentInteractable.transform.localRotation;
+                    currentInteractable.Grab(transform.position - transform.up * 0.1f, transform);
+
+                    currentInteractable.transform.rotation = rotation;
                 }
             }
         }
@@ -45,21 +49,49 @@ public class Interactor : MonoBehaviour
             if (currentInteractable != null)
             {
                 currentInteractable.Release();
-                currentInteractable.Throw(actions.gameplay.left_hand_speed.ReadValue<Vector3>());
+                Vector3 average = Average(positionLastFrames);
+                currentInteractable.Throw(average / Time.deltaTime);
+                
                 currentInteractable = null;
             }
         }
 
-        if (currentInteractable != null)
+        positionLastFrames.Enqueue(transform.position);
+        if (positionLastFrames.Count >= 10)
         {
-            currentInteractable.MoveTo(transform.position + grabOffset);
-            //currentInteractable.transform.position += transform.forward * dist;
+            positionLastFrames.Dequeue();
         }
     }
 
     void Drag(InputAction.CallbackContext context)
     {
         grip = !grip;
+    }
+
+    Vector3 Average(Queue<Vector3> list)
+    {
+        List<Vector3> distance = new List<Vector3>();
+        Vector3 average = Vector3.zero;
+        Vector3 firstElement;
+        Vector3 secondElement;
+        firstElement = list.Dequeue();
+        secondElement = firstElement;
+
+        int count = list.Count;
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            firstElement = secondElement;
+            secondElement = list.Dequeue();
+            distance.Add(secondElement - firstElement);
+        }
+
+        for (int j = 0; j < distance.Count; j++)
+        {
+            average += distance[j];
+        }
+
+        return (average / distance.Count);
     }
 
     void OnEnable()

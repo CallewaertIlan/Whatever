@@ -14,7 +14,6 @@ public class MovementScript : MonoBehaviour
     void Awake()
     {
         actions = new ActionsGameplay();
-        actions.gameplay.drag.performed += Drag;
         initialPos = transform.position;
     }
 
@@ -31,9 +30,6 @@ public class MovementScript : MonoBehaviour
         transform.Rotate(0, actions.gameplay.rotate.ReadValue<Vector2>().x * Time.deltaTime * rotationSpeed, 0);
     }
 
-    private void Drag(InputAction.CallbackContext context)
-    {
-    }
        
     void OnEnable()
     {
