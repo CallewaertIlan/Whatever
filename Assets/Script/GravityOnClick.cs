@@ -6,33 +6,24 @@ using UnityEngine.InputSystem;
 
 public class GravityOnClick : MonoBehaviour
 {
-    public UnityEvent OnGravityClick;
-    private ActionsGameplay actions;
+    [SerializeField] private UnityEvent OnGravityClick;
 
-    // Start is called before the first frame update
+    private static GravityOnClick instance;
+    public static GravityOnClick Instance
+    {
+        get { return instance; }
+    }
+
     void Awake()
     {
-        actions = new ActionsGameplay();
-        actions.gameplay.drag.performed += OnClick;
+        if (instance != null && instance != this)
+            Destroy(gameObject);
+
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OnClick(InputAction.CallbackContext context)
+    public void OnClick()
     {
         OnGravityClick.Invoke();
-        Debug.Log("ca lance");
-    }
-    void OnEnable()
-    {
-        actions.gameplay.Enable();
-    }
-    void OnDisable()
-    {
-        actions.gameplay.Disable();
     }
 }
