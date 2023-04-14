@@ -1,3 +1,4 @@
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +29,8 @@ public class MovementScript : MonoBehaviour
         transform.position += dirRight * actions.gameplay.move.ReadValue<Vector2>().x * speed;
 
         transform.Rotate(0, actions.gameplay.rotate.ReadValue<Vector2>().x * Time.deltaTime * rotationSpeed, 0);
+
+        transform.position = new Vector3(transform.position.x, initialPos.y - (initialPos.y - transform.position.y), transform.position.z);
     }
 
        

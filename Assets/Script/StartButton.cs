@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Button : MonoBehaviour
+public class StartButton : MonoBehaviour
 {
     [SerializeField] private GameObject button;
     private GameObject presser;
@@ -22,7 +22,7 @@ public class Button : MonoBehaviour
         {
             button.transform.localPosition = new Vector3(0, 0.03f, 0);
             presser = other.gameObject;
-            GravityOnClick.Instance.OnClick();
+            Singleton.Instance.ActiveGravity();
             isPressed = true;
         }
     }

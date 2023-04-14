@@ -6,9 +6,6 @@ using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
 {
-    public UnityEvent OnGrab;
-    public UnityEvent OnRelease;
-
     private Rigidbody rb;
     public bool isGrabbed = false;
 
